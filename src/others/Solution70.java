@@ -18,4 +18,8 @@ public class Solution70 {
     public static void main(String[] args) {
         System.out.println(new Solution70().climbStairs(1));
     }
+
+    public int climbStairs1(int n) {
+        return 0;
+    }
 }
