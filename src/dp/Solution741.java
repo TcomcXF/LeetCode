@@ -142,26 +142,35 @@ public class Solution741 {
                 }
             }
         }
+        cherryDp[0][0][0][0] = cherry[0][0];
+
         // 循环操作状态转移方程
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 for (int k = 0; k < n; k++) {
                     for (int l = 0; l < n; l++) {
-                        // 如果路线A和路线B不同步则跳过
+                        // 必须要排除掉初始位置，不然cherryDp[0][0][0][0]会被复制为 Integer.MIN_VALUE + cherry[0][0]
+                        // 导致结果恒为负数，最后输出为0
+                        if (i == 0 && j == 0 && k == 0 && l == 0) {
+                            continue;
+                        }
+
+                        // 如果路线A和路线B不同步则跳过，减少循环次数
                         if (i + j != k + l) {
                             continue;
                         }
 
-                        // 如果路线A或B的当前节点是荆棘，就表示这种情况走不通，直接设置为0
+                        // 如果路线A或B的当前节点是荆棘，就表示这种情况走不通，直接跳过
                         if (cherry[i][j] == -1 || cherry[k][l] == -1) {
                             continue;
                         }
 
                         // 设置sum1-4分别表示，能到达(i1,j1,i2,j2)的四种方式，选其中值最大的一种
-                        int sum1 = 0;
-                        int sum2 = 0;
-                        int sum3 = 0;
-                        int sum4 = 0;
+                        // 这里必须设置为Integer.MIN_VALUE，只有这样才能保证路径中包含荆棘时，最后采集到的樱桃为负数
+                        int sum1 = Integer.MIN_VALUE;
+                        int sum2 = Integer.MIN_VALUE;
+                        int sum3 = Integer.MIN_VALUE;
+                        int sum4 = Integer.MIN_VALUE;
                         if (i > 0) {
                             if (k > 0) {
                                 // 两条路径都走上节点
@@ -188,7 +197,7 @@ public class Solution741 {
                         if (i != k) {
                             currentCherryDp += cherry[k][l];
                         }
-                        cherryDp[i][j][k][l] = Math.max(cherryDp[i][j][k][l], currentCherryDp);
+                        cherryDp[i][j][k][l] = currentCherryDp;
                     }
                 }
             }
