@@ -1,9 +1,3 @@
-/*
- * Copyright (c) Huawei Technologies Co., Ltd. 2022-2022. All rights reserved.
- */
-
-package leetCode;
-
 public class Solution12 {
     public static void main(String[] args) {
         Solution12 so = new Solution12();
